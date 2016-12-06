@@ -25,7 +25,7 @@
         function calcsides(){
             var carrier = Number($('#carrier').val());
             var note = teoria.note.fromFrequency(carrier);
-            $('#nota').html(note.note.toString() + " " + note.cents)
+            $('#nota').html(note.note.toString() + " " + note.cents + 'cents')
             var ratio = Number($('#ratio').val());
             // console.debug(carrier);
             bands = 10;
@@ -39,20 +39,21 @@
                 out = carrier - (i * (carrier * ratio));
                 lowers.push(Math.abs(out));
             }
-            console.debug(lowers);
+            // console.debug(lowers);
             var comb = uppers.concat(lowers);
             comb = unique(comb);
             comb = comb.sort(sortNumber);
-            console.debug(comb);
-            outcomb = '';
+            // console.debug(comb);
+            outcomb = '<ul>';
             $('.output div#uppers').html(uppers.join(', '));
             $('.output div#lowers').html(lowers.join(', '));
             for (x=0;x<comb.length;x++){
               if (comb[x] >0){
                 var notecomb = teoria.note.fromFrequency(comb[x]);
-                outcomb += comb[x] + " " + notecomb.note.toString() + " - ";
+                outcomb += "<li> " + comb[x] + " " + notecomb.note.toString() + "</li>";
               }
             }
+            outcomb += '</ul>';
             $('.output div#comb').html(outcomb);
         }
         $(function(){
@@ -107,24 +108,15 @@
       </div>
     </form>
     <div class="output">
-        <h2>Nota</h2>
+        <h2>Note</h2>
         <div id="nota"></div>
-        <h2>Resultado</h2>
-        <h4>uppers</h4>
+        <h2>Result</h2>
+        <h4>upper harmonics</h4>
         <div id="uppers"></div>
-        <h4>lowers</h4>
+        <h4>lower harmonics</h4>
         <div id="lowers"></div>
-        <h4>comb</h4>
+        <h4>Combinated result</h4>
         <div id="comb"></div>
     </div>
-    <div id="acordes">
-      <h2>Acordes</h2>
-      <div id="">1: 146(D2), 195(G2), 300 (D3), 390(G3), 466(Bb3), 592(D4), 738(?)<br />
-2: 153(Eb2), 197(G2), 345(F3), 462 (Bb3), 598 (D4), 786 (G4), 1171(D)<br />
-3: 97 (G1), 147 (D2), 289 (D3), 351 (F3), 460 (Bb3), 587 (D4), 921(Bb4), 
-       </div>
-    </div><br />In his essay "My Radiohead Adventure" in The Music and Art of Radiohead, Paul Lansky includes the following musical example, showing that the chord progression consists of four different spacings of an E flat major seventh chord, with B flat and E flat in the right hand and G and D in the left, then D and G in the right and E flat and B flat in the left. The next chords are inversions of the first two, with E flat and B flat in the right, then G and D. Finally, this chord progression also includes two high B flat harmonics on the 2nd and 4th chords."
-  </div>
-
   </body>
 </html>
