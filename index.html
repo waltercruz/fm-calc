@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Simple FM calculator</title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="teoria.js"></script>
@@ -37,24 +37,36 @@
             }
             for(i=1;i<=bands;i++){
                 out = carrier - (i * (carrier * ratio));
-                lowers.push(Math.abs(out));
+                lowers.push(out);
             }
             // console.debug(lowers);
             var comb = uppers.concat(lowers);
             comb = unique(comb);
             comb = comb.sort(sortNumber);
             // console.debug(comb);
-            outcomb = '<ul>';
-            $('.output div#uppers').html(uppers.join(', '));
-            $('.output div#lowers').html(lowers.join(', '));
-            for (x=0;x<comb.length;x++){
-              if (comb[x] >0){
-                var notecomb = teoria.note.fromFrequency(comb[x]);
-                outcomb += "<li> " + comb[x] + " " + notecomb.note.toString() + "</li>";
+            outuppers = '<ul>';
+            outlowers = '<ul>';
+            // $('.output div#uppers').html(uppers.join(', '));
+            // $('.output div#lowers').html(lowers.join(', '));
+            for (x=0;x<uppers.length;x++){
+              // if (comb[x] >0){
+                var notecomb = teoria.note.fromFrequency(uppers[x]);
+                outuppers += "<li> " + uppers[x] + " " + notecomb.note.toString() + "</li>";
+              // }
+            }
+
+            for (x=0;x<lowers.length;x++){
+              if (lowers[x] >0){
+                var notecomb = teoria.note.fromFrequency(lowers[x]);
+                outlowers += "<li> " + lowers[x] + " " + notecomb.note.toString() + "</li>";
+              } else {
+                outlowers += "<li> " + lowers[x] + "</li>";
               }
             }
-            outcomb += '</ul>';
-            $('.output div#comb').html(outcomb);
+
+            outuppers += '</ul>';
+            $('.output div#uppers').html(outuppers);
+            $('.output div#lowers').html(outlowers);
         }
         $(function(){
             $('#send').click(function(){
@@ -115,8 +127,6 @@
         <div id="uppers"></div>
         <h4>lower harmonics</h4>
         <div id="lowers"></div>
-        <h4>Combinated result</h4>
-        <div id="comb"></div>
     </div>
   </body>
 </html>
